@@ -51,7 +51,7 @@ class IdeHelper extends Component
      */
     protected function getRootDir()
     {
-        return $this->rootDir ? rtrim($this->rootDir, '\/') : dirname(Yii::getAlias('@vendor'));
+        return $this->rootDir ? rtrim($this->rootDir, '\/') : dirname(\Yii::getAlias('@vendor'));
     }
 
     /**
