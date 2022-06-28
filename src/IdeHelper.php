@@ -2,9 +2,10 @@
 
 namespace Mitirrli\IdeHelper;
 
-use Yii;
 use yii\base\Component;
+use yii\console\Application;
 use yii\helpers\ArrayHelper;
+use Mitirrli\IdeHelper\commands\IdeHelperController;
 
 /**
  * Ide helper component for Yii framework 2.x.x version.
@@ -34,6 +35,16 @@ class IdeHelper extends Component
         'backend/config/main.php',
         'backend/config/main-local.php',
     ];
+    
+    /**
+     * init method.
+     */
+    public function init()
+    {
+        if (\Yii::$app instanceof Application) {
+            \Yii::$app->controllerMap['ide-helper'] = IdeHelperController::class;
+        }
+    }
 
     /**
      * get the root directory.
