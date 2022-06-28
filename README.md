@@ -5,13 +5,13 @@
 Require this package with composer using the following command:
 
 ```
-composer require mis/yii2-ide-helper --dev
+composer require mitirrli/yii2-ide-helper --dev
 ```
 
 or add
 
 ```
-"mis/yii2-ide-helper": "*"
+"mitirrli/yii2-ide-helper": "*"
 ```
 
 to the `require-dev` section of your `composer.json` file.
@@ -25,7 +25,7 @@ After updating composer, add the component to the `components` array and `bootst
 ...
 'components' => [
     'ideHelper' => [
-      	'class' => 'Mis\IdeHelper\IdeHelper',
+      	'class' => 'Mitirrli\IdeHelper\IdeHelper',
     ],
   ...
 ],
@@ -34,16 +34,15 @@ After updating composer, add the component to the `components` array and `bootst
 Now you can generate ide helper file by command:
 
 ```
-php yii ide-helper/generate
+./yii ide-helper/generate
 ```
 
 ### Options
 
 ```php
 'ideHelper' => [
-    'class' => 'Mis\IdeHelper\IdeHelper',
+    'class' => 'Mitirrli\IdeHelper\IdeHelper',
     'filename' => '_ide_helper',
-    'format' => 'php',
     'rootDir' => dirname(__DIR__),
     'configFiles' => [
         'console/config/main.php',

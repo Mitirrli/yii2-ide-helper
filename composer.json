@@ -1,5 +1,5 @@
 {
-    "name": "mis/yii2-ide-helper",
+    "name": "mitirrli/yii2-ide-helper",
     "description": "Yii2 IDE Helper, generates correct PHPDocs for all components, to improve auto-completion.",
     "keywords": ["yii2", "autocomplete", "ide", "helper", "phpstorm", "netbeans", "sublime", "codeintel", "phpdoc"],
     "license": "MIT",
@@ -18,12 +18,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Mis\\IdeHelper\\": "src"
-        }
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.0-dev"
+            "Mitirrli\\IdeHelper\\": "src"
         }
     }
 }

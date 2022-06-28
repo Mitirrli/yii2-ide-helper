@@ -1,32 +1,32 @@
 <?php
-/**
- * Ide helper component for Yii framework 2.x.x version.
- *
- * Class IdeHelper
- */
 
-namespace Mis\IdeHelper;
+namespace Mitirrli\IdeHelper;
 
-use Mis\IdeHelper\commands\IdeHelperController;
 use Yii;
 use yii\base\Component;
-use yii\console\Application;
 use yii\helpers\ArrayHelper;
 
+/**
+ * Ide helper component for Yii framework 2.x.x version.
+ */
 class IdeHelper extends Component
 {
-    public $filename = '_ide_helper';
-
-    public $format = 'php';
-
+    /**
+     * the root directory
+     */
     public $rootDir;
-
+    /**
+     * the custom configuration files
+     */
     public $configFiles = [];
-
+    /**
+     * the generated file name
+     */
+    public $filename = '_ide_helper';
+    /**
+     * the default configuration files
+     */
     protected $defaultConfigFiles = [
-        'config/web.php',
-        'config/main.php',
-        'config/main-local.php',
         'common/config/main.php',
         'common/config/main-local.php',
         'frontend/config/main.php',
@@ -36,20 +36,16 @@ class IdeHelper extends Component
     ];
 
     /**
-     * init method.
+     * get the root directory.
      */
-    public function init()
-    {
-        if (Yii::$app instanceof Application) {
-            Yii::$app->controllerMap['ide-helper'] = IdeHelperController::class;
-        }
-    }
-
     protected function getRootDir()
     {
         return $this->rootDir ? rtrim($this->rootDir, '\/') : dirname(Yii::getAlias('@vendor'));
     }
 
+    /**
+     * return the default configuration and custom configuration.
+     */
     protected function readConfig()
     {
         $configFiles = array_merge($this->defaultConfigFiles, $this->configFiles);
@@ -64,23 +60,43 @@ class IdeHelper extends Component
         return $config;
     }
 
+    /**
+     * return final of the filename.
+     */
     protected function generateFilename()
     {
-        return $this->getRootDir() . DIRECTORY_SEPARATOR . $this->filename . '.' . $this->format;
+        return $this->getRootDir() . DIRECTORY_SEPARATOR . $this->filename . '.php';
     }
 
+    /**
+     * generate the ide helper.
+     */
     public function generate()
     {
         $config = $this->readConfig();
         $string = '';
         foreach ($config['components'] as $name => $component) {
             if (isset($component['class'])) {
-                $string .= ' * @property ' . $component['class'] . ' $' . $name . "\n";
+                $string .= ' * @property ' . $component['class'] . ' $' . $name . PHP_EOL;
             }
         }
 
-        $helper = str_replace(' * phpdoc', rtrim($string, "\n"), file_get_contents(__DIR__ . '/template.tpl'));
+        $template = '<?php
 
-        file_put_contents($this->generateFilename(), $helper);
+class Yii extends \yii\BaseYii
+{
+    /**
+     * @var BaseApplication
+     */
+    public static $app;
+}
+
+/**
+ * phpdoc
+ */
+abstract class BaseApplication extends \yii\base\Application {}';
+
+        file_put_contents($this->generateFilename(), str_replace(' * phpdoc', rtrim($string, PHP_EOL), $template));
     }
 }
+
